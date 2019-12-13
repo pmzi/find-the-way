@@ -41,20 +41,32 @@ function getCity(id, cities) {
   return cities.find(city => city.id === id)
 }
 
-function getParent(name, ac = []){
-  const parent = cities.find(city => city.n ? city.n.includes(name) : false)
+function getParent(id){
+  const parent = cities.find(city => city.neighboars ? city.neighboars.find(n => n.id === id) : false)
 
   return parent;
 }
 
+function calculateGs(id, acG = 0){
+  const parent = getParent(id);
+  
+  if(parent) {
+    const { g } = parent.neighboars.find(n => n.id === id);
+    return calculateGs(parent.id, acG + g);
+  }
+  return acG;
+}
+
 function aStar(source, target, fs = [], ways = [source]) {
-  if(!source.n) {
+  if(!source.neighboars) {
     return [];
   }
-  source.n.forEach(name => {
-    const { h, g, id } = cities.find(city => city.name === name);
+  source.neighboars.forEach(({ id }) => {
+    const { name } = cities.find(city => city.id === id);
     const h = calculateH(source, getCity(id, cities));
-    const f = g + h;
+    const gSum = calculateGs(id);
+
+    const f = gSum + h;
 
     fs.push({
       f,
@@ -65,7 +77,7 @@ function aStar(source, target, fs = [], ways = [source]) {
 
   const minF = fs.sort((item, targetItem) => targetItem.f - item.f).pop();
 
-  const parent = getParent(minF.name);
+  const parent = getParent(minF.id);
   
   if(parent && parent.name !== ways[ways.length - 1].name) {
     ways = ways.splice(0, ways.findIndex(way => way.name === parent.name) + 1);
