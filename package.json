@@ -1,0 +1,22 @@
+{
+  "name": "find-the-way",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmzi/find-the-way.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pmzi/find-the-way/issues"
+  },
+  "homepage": "https://github.com/pmzi/find-the-way#readme",
+  "dependencies": {
+    "prompts": "^2.3.0"
+  }
+}
